@@ -1,5 +1,5 @@
 {
-  "name": "react-keycloak-context",
+  "name": "react-keycloak-js-context",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.umd.js",

@@ -1,1 +1,1 @@
-# react-keycloak-context
+# react-keycloak-js-context
