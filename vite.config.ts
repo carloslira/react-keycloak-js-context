@@ -22,7 +22,7 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
     lib: {
-      name: 'react-keycloak',
+      name: 'react-keycloak-context',
       entry: path.resolve(__dirname, './src/index.ts'),
       fileName: (format) => `index.${format}.js`,
     },
