@@ -1,5 +1,12 @@
-export type { Keycloak, KeycloakUserInfo } from './types';
+export type {
+  Keycloak,
+  KeycloakUserInfo,
+  KeycloakMockOptions,
+  KeycloakCustomInitOptions,
+} from './types';
+
+export type { KeycloakProviderProps } from './provider';
 export { default as KeycloakProvider } from './provider';
 
-export * from './hooks';
 export { updateKeycloakInstance } from './actions';
+export * from './hooks';

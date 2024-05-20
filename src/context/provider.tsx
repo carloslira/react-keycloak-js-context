@@ -35,7 +35,7 @@ const defaultInitOptions: KeycloakInitOptions = {
   onLoad: 'check-sso',
 };
 
-type KeycloakProviderProps = PropsWithChildren<{
+export type KeycloakProviderProps = PropsWithChildren<{
   config: KeycloakConfig | string;
   mocked?: boolean;
   mockOptions?: KeycloakMockOptions;
