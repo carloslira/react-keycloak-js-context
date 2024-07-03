@@ -110,7 +110,7 @@ const KeycloakProvider = ({
     const { keycloak } = state;
     if (autoRefreshToken) {
       logger.debug('Auto refreshing token...');
-      keycloak?.updateToken(tokenExpiringNotificationTime).then((refreshed) => {
+      keycloak?.updateToken(-1).then((refreshed) => {
         if (refreshed) {
           logger.debug('Token was updated');
         } else {
@@ -157,21 +157,21 @@ const KeycloakProvider = ({
   };
 
   const handleAuthError: Keycloak['onAuthError'] = (errorData) => {
-    logger.debug('Keycloak instance raised a auth error event');
+    logger.debug('Keycloak instance raised an auth error event');
 
     updateInstance();
     onAuthError?.(errorData);
   };
 
   const handleAuthLogout: Keycloak['onAuthLogout'] = () => {
-    logger.debug('Keycloak instance raised a auth logout event');
+    logger.debug('Keycloak instance raised an auth logout event');
 
     updateInstance();
     onAuthLogout?.();
   };
 
   const handleAuthSuccess: Keycloak['onAuthSuccess'] = () => {
-    logger.debug('Keycloak instance raised a auth success event');
+    logger.debug('Keycloak instance raised an auth success event');
 
     startTokenExpiringMonitor();
     updateInstance();
@@ -186,21 +186,21 @@ const KeycloakProvider = ({
   };
 
   const handleTokenExpired: Keycloak['onTokenExpired'] = () => {
-    logger.debug('Keycloak instance raised an token expired event');
+    logger.debug('Keycloak instance raised a token expired event');
 
     updateInstance();
     onTokenExpired?.();
   };
 
   const handleAuthRefreshError: Keycloak['onAuthRefreshError'] = () => {
-    logger.debug('Keycloak instance raised a auth refresh error event');
+    logger.debug('Keycloak instance raised an auth refresh error event');
 
     updateInstance();
     onAuthRefreshError?.();
   };
 
   const handleAuthRefreshSuccess: Keycloak['onAuthRefreshSuccess'] = () => {
-    logger.debug('Keycloak instance raised a auth refresh success event');
+    logger.debug('Keycloak instance raised an auth refresh success event');
 
     startTokenExpiringMonitor();
     updateInstance();
