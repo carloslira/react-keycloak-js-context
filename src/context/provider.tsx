@@ -110,8 +110,12 @@ const KeycloakProvider = ({
     const { keycloak } = state;
     if (autoRefreshToken) {
       logger.debug('Auto refreshing token...');
-      keycloak?.updateToken(tokenExpiringNotificationTime).then(() => {
-        logger.debug('Token was updated');
+      keycloak?.updateToken(tokenExpiringNotificationTime).then((refreshed) => {
+        if (refreshed) {
+          logger.debug('Token was updated');
+        } else {
+          logger.debug('Token was not updated');
+        }
       }).catch(() => {
         logger.error('Fail to update token');
       });
