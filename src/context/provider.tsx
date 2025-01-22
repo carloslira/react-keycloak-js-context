@@ -6,19 +6,15 @@ import {
   useReducer,
 } from 'react';
 
+import type { KeycloakConfig, KeycloakInitOptions } from 'keycloak-js';
 import Keycloak from 'keycloak-js';
-
-import {
-  type KeycloakConfig,
-  type KeycloakInitOptions,
-} from 'keycloak-js';
 
 import logger from '../logger';
 
-import {
-  type KeycloakMockOptions,
-  type KeycloakContextValue,
-  type KeycloakCustomInitOptions,
+import type {
+  KeycloakMockOptions,
+  KeycloakContextValue,
+  KeycloakCustomInitOptions,
 } from './types';
 
 import {
@@ -73,7 +69,7 @@ const KeycloakProvider = ({
   onAuthRefreshError,
   onAuthRefreshSuccess,
 }: KeycloakProviderProps) => {
-  const tokeExpiringTimeoutRef = useRef<number>();
+  const tokeExpiringTimeoutRef = useRef<number>(null);
 
   const [state, dispatch] = useReducer(keycloakReducer, {
     isMocked: mocked,
@@ -97,9 +93,7 @@ const KeycloakProvider = ({
       }
 
       Promise.all(promises).finally(() => {
-        dispatch(
-          updateKeycloakInstance(keycloak),
-        );
+        dispatch(updateKeycloakInstance(keycloak));
       });
     }
   };
@@ -110,15 +104,18 @@ const KeycloakProvider = ({
     const { keycloak } = state;
     if (autoRefreshToken) {
       logger.debug('Auto refreshing token...');
-      keycloak?.updateToken(-1).then((refreshed) => {
-        if (refreshed) {
-          logger.debug('Token was updated');
-        } else {
-          logger.debug('Token was not updated');
-        }
-      }).catch(() => {
-        logger.error('Fail to update token');
-      });
+      keycloak
+        ?.updateToken(-1)
+        .then((refreshed) => {
+          if (refreshed) {
+            logger.debug('Token was updated');
+          } else {
+            logger.debug('Token was not updated');
+          }
+        })
+        .catch(() => {
+          logger.error('Fail to update token');
+        });
     }
 
     onTokenExpiring?.();
@@ -133,12 +130,19 @@ const KeycloakProvider = ({
 
     const { keycloak } = state;
     if (keycloak) {
-      const expiresIn = ((keycloak.tokenParsed?.exp ?? 0) - (new Date().getTime() / 1000) + (keycloak.timeSkew ?? 0)) * 1000;
+      const expiresIn =
+        ((keycloak.tokenParsed?.exp ?? 0) -
+          new Date().getTime() / 1000 +
+          (keycloak.timeSkew ?? 0)) *
+        1000;
       logger.debug(`Token expiring in ${Math.trunc(expiresIn / 1000)} seconds`);
       if (expiresIn <= tokenExpiringNotificationTime * 1000) {
         handleTokenExpiring();
       } else {
-        tokeExpiringTimeoutRef.current = setTimeout(handleTokenExpiring, expiresIn - (tokenExpiringNotificationTime * 1000));
+        tokeExpiringTimeoutRef.current = setTimeout(
+          handleTokenExpiring,
+          expiresIn - tokenExpiringNotificationTime * 1000,
+        );
       }
     }
   };
@@ -148,9 +152,7 @@ const KeycloakProvider = ({
 
     const { keycloak } = state;
     if (keycloak) {
-      dispatch(
-        updateKeycloakInitialization(true),
-      );
+      dispatch(updateKeycloakInitialization(true));
     }
 
     onReady?.(authenticated);
@@ -214,13 +216,9 @@ const KeycloakProvider = ({
     }
 
     if (isMocked) {
-      dispatch(
-        updateKeycloakInstance(new Keycloak()),
-      );
+      dispatch(updateKeycloakInstance(new Keycloak('')));
     } else {
-      dispatch(
-        updateKeycloakInstance(new Keycloak(config)),
-      );
+      dispatch(updateKeycloakInstance(new Keycloak(config)));
     }
   }, [config]);
 
@@ -231,9 +229,7 @@ const KeycloakProvider = ({
     }
 
     if (isMocked) {
-      dispatch(
-        updateKeycloakInitialization(true),
-      );
+      dispatch(updateKeycloakInitialization(true));
 
       return;
     }
@@ -247,15 +243,16 @@ const KeycloakProvider = ({
     keycloak.onAuthRefreshError = handleAuthRefreshError;
     keycloak.onAuthRefreshSuccess = handleAuthRefreshSuccess;
 
-    keycloak
-      .init(initOptions)
-      .catch(onInitError);
+    keycloak.init(initOptions).catch(onInitError);
   }, [state.keycloak]);
 
-  const value = useMemo<KeycloakContextValue>(() => ({
-    state,
-    dispatch,
-  }), [state, dispatch]);
+  const value = useMemo<KeycloakContextValue>(
+    () => ({
+      state,
+      dispatch,
+    }),
+    [state, dispatch],
+  );
 
   return (
     <KeycloakContext.Provider value={value}>

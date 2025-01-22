@@ -1,21 +1,17 @@
-import {
-  type Dispatch,
-} from 'react';
+import type { Dispatch } from 'react';
 
+import type { KeycloakProfile, KeycloakInitOptions } from 'keycloak-js';
 import type KeycloakJS from 'keycloak-js';
-
-import {
-  type KeycloakProfile,
-  type KeycloakInitOptions,
-} from 'keycloak-js';
 
 import type KeycloakActions from './actions';
 
 export type Action<T> = {
-  type: T
+  type: T;
 };
 
-export type KeycloakUserInfo<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type KeycloakUserInfo<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
   sub?: string;
   name?: string;
   email?: string;
@@ -26,7 +22,9 @@ export type KeycloakUserInfo<T extends Record<string, unknown> = Record<string, 
   preferred_username?: string;
 };
 
-export type Keycloak<T extends Record<string, unknown> = Record<string, unknown>> = Omit<KeycloakJS, 'userInfo' | 'loadUserInfo'> & {
+export type Keycloak<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = Omit<KeycloakJS, 'userInfo' | 'loadUserInfo'> & {
   userInfo?: KeycloakUserInfo<T>;
   loadUserInfo: () => Promise<KeycloakUserInfo<T>>;
 };

@@ -1,15 +1,14 @@
-import {
-  type Reducer,
-} from 'react';
+import type { Reducer } from 'react';
 
-import {
-  type KeycloakState,
-} from './types';
+import type { KeycloakState } from './types';
 
 import type KeycloakActions from './actions';
 import * as KeycloakActionTypes from './actions';
 
-const keycloakReducer: Reducer<KeycloakState, KeycloakActions> = (state, action) => {
+const keycloakReducer: Reducer<KeycloakState, KeycloakActions> = (
+  state,
+  action,
+) => {
   switch (action.type) {
     // Update keycloak instance
     case KeycloakActionTypes.UPDATE_KEYCLOAK_INSTANCE:

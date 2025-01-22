@@ -1,7 +1,4 @@
-import {
-  type Action,
-  type Keycloak,
-} from './types';
+import type { Action, Keycloak } from './types';
 
 /*
  * Update keycloak instance
@@ -12,7 +9,9 @@ type UpdateKeycloakInstanceAction = Action<typeof UPDATE_KEYCLOAK_INSTANCE> & {
   keycloak: Keycloak;
 };
 
-export const updateKeycloakInstance = (keycloak: Keycloak): UpdateKeycloakInstanceAction => ({
+export const updateKeycloakInstance = (
+  keycloak: Keycloak,
+): UpdateKeycloakInstanceAction => ({
   type: UPDATE_KEYCLOAK_INSTANCE,
   keycloak,
 });
@@ -22,11 +21,15 @@ export const updateKeycloakInstance = (keycloak: Keycloak): UpdateKeycloakInstan
  */
 export const UPDATE_KEYCLOAK_INITIALIZATION = 'UPDATE_KEYCLOAK_INITIALIZATION';
 
-type UpdateKeycloakInitializationAction = Action<typeof UPDATE_KEYCLOAK_INITIALIZATION> & {
+type UpdateKeycloakInitializationAction = Action<
+  typeof UPDATE_KEYCLOAK_INITIALIZATION
+> & {
   isInitialized: boolean;
 };
 
-export const updateKeycloakInitialization = (isInitialized: boolean): UpdateKeycloakInitializationAction => ({
+export const updateKeycloakInitialization = (
+  isInitialized: boolean,
+): UpdateKeycloakInitializationAction => ({
   type: UPDATE_KEYCLOAK_INITIALIZATION,
   isInitialized,
 });

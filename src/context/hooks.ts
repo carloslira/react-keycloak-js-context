@@ -1,26 +1,22 @@
-import {
-  useContext,
-} from 'react';
+import { useContext } from 'react';
 
-import {
-  type Keycloak,
-  type KeycloakUserInfo,
-} from './types';
+import type { Keycloak, KeycloakUserInfo } from './types';
 
 import KeycloakContext from './context';
 
 export const useKeycloakContext = () => useContext(KeycloakContext);
 
-export const useKeycloak = <T extends KeycloakUserInfo = KeycloakUserInfo>() => {
-  const {
-    state,
-  } = useKeycloakContext();
+export const useKeycloak = <
+  T extends KeycloakUserInfo = KeycloakUserInfo,
+>() => {
+  const { state } = useKeycloakContext();
 
   const { isMocked, keycloak, mockOptions } = state;
   if (isMocked && keycloak) {
     keycloak.login = () => Promise.resolve();
     keycloak.loadUserInfo = () => Promise.resolve(mockOptions?.userInfo ?? {});
-    keycloak.loadUserProfile = () => Promise.resolve(mockOptions?.profile ?? {});
+    keycloak.loadUserProfile = () =>
+      Promise.resolve(mockOptions?.profile ?? {});
 
     keycloak.token = mockOptions?.token;
     keycloak.idToken = mockOptions?.idToken;
