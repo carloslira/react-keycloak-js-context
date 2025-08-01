@@ -34,8 +34,6 @@ export const updateKeycloakInitialization = (
   isInitialized,
 });
 
-type KeycloakActions =
+export type KeycloakActions =
   | UpdateKeycloakInstanceAction
   | UpdateKeycloakInitializationAction;
-
-export default KeycloakActions;

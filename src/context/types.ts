@@ -3,7 +3,7 @@ import type { Dispatch } from 'react';
 import type { KeycloakProfile, KeycloakInitOptions } from 'keycloak-js';
 import type KeycloakJS from 'keycloak-js';
 
-import type KeycloakActions from './actions';
+import type { KeycloakActions } from './actions';
 
 export type Action<T> = {
   type: T;

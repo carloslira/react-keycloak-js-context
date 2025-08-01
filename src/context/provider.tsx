@@ -1,10 +1,5 @@
-import {
-  type PropsWithChildren,
-  useRef,
-  useMemo,
-  useEffect,
-  useReducer,
-} from 'react';
+import type { PropsWithChildren } from 'react';
+import { useRef, useMemo, useEffect, useReducer } from 'react';
 
 import type { KeycloakConfig, KeycloakInitOptions } from 'keycloak-js';
 import Keycloak from 'keycloak-js';
